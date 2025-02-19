@@ -1,9 +1,9 @@
 # NeuroPRIS
 Leveraging deep learning for 3D structure-based prediction of protein–RNA interactions across diverse cell lines
----
+
 # Overview
 RNA plays an integral part in the molecular biology of cellular organisms, and understanding how RNA sequences can be accurately predicted enhances our comprehension of their role. NeuroPRIS proposes an end-to-end deep learning solution for the prediction of RNA sequence properties. Using a combination of architectural innovations including BiLSTM and 3D coordinate integration, it offers a powerful tool for understanding RNA-centric processes. The model aims to classify RNA sequences while leveraging structural information, thus providing deeper insights into RNA functions.
----
+
 # Requirements
 Code can be accessed via our GitHub repository.
 Our model predictions require both secondary and tertiary structures of RNA. We have uploaded the complete secondary and tertiary structures for 31,226 RNA sequences in the ./dataset directory for users to utilize directly. If the RNA you wish to predict is not in our database, you can generate the secondary structure using RNAfold and the tertiary structure using nsp. We recommend using the RNAfold and nsp packages we have provided.
@@ -13,7 +13,7 @@ https://zenodo.org/records/14848782
 ## Secondary Structure with RNAfold:
 Use the RNAfold package to generate the RNA secondary structure in dot-bracket notation. We provided ViennaRNA-2.6.3.tar.
 Ensure you have RNAfold installed. You can download it from the provided package link.
----
+
 ## Tertiary Structure with nsp:
 Use the nsp package to compute the RNA tertiary structure in .pdb format. We provided nsp-lib.tar.gz.
 The nsp download package is available through our platform, ensuring compatibility and standardization.
@@ -55,7 +55,7 @@ Activate the Environment:
 Install Dependencies: Install Python packages listed in the requirements.txt:
 
     pip install -r requirements.txt
----
+
 # Usage
 
 Firstly, ensure all datasets and related PDB files are prepared in the directory. Replace placeholders with actual paths and file names.
