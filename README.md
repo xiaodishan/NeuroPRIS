@@ -1,14 +1,13 @@
 # NeuroPRIS
-Leveraging deep learning for 3D structure-based prediction of protein–RNA interactions across diverse cell lines
+
+`NeuroPRIS` is a Python package designed for RNA sequence prediction, leveraging deep learning architectures for predictive modeling in bioinformatics.
 
 # Overview
 RNA plays an integral part in the molecular biology of cellular organisms, and understanding how RNA sequences can be accurately predicted enhances our comprehension of their role. NeuroPRIS proposes an end-to-end deep learning solution for the prediction of RNA sequence properties. Using a combination of architectural innovations including BiLSTM and 3D coordinate integration, it offers a powerful tool for understanding RNA-centric processes. The model aims to classify RNA sequences while leveraging structural information, thus providing deeper insights into RNA functions.
 
 # Requirements
-Code can be accessed via our GitHub repository.
-Our model predictions require both secondary and tertiary structures of RNA. We have uploaded the complete secondary and tertiary structures for 31,226 RNA sequences in the ./dataset directory for users to utilize directly. If the RNA you wish to predict is not in our database, you can generate the secondary structure using RNAfold and the tertiary structure using nsp. We recommend using the RNAfold and nsp packages we have provided.
-All datasets and models were provided at below:
-https://zenodo.org/records/14848782
+
+Github only provides data for testing purposes. To fully utilize the software's features, the corresponding secondary and tertiary RNA structures are required. We have uploaded the complete secondary (2DRNA.tar.gz) and tertiary structures (3DRNA.tar.gz) of 31,226 RNA sequences to https://zenodo.org/records/14848782 for users to use directly. If the RNA you wish to predict is not in our database, we recommend using the RNAfold and nsp packages we provide. You can generate the secondary structure using RNAfold and the tertiary structure using nsp, or use RNA secondary structures in dot-bracket format and RNA tertiary structures in .pdb format from any other source.
 
 ## Secondary Structure with RNAfold:
 Use the RNAfold package to generate the RNA secondary structure in dot-bracket notation. We provided ViennaRNA-2.6.3.tar.
@@ -25,10 +24,9 @@ Tertiary Structure Format: For tertiary structures, ensure that your data is in 
 
 
 ## Docker Instructions(recommend)
-Welcome to NeuroPRIS, a deep learning tool designed for RNA sequence prediction. This package comes with a pre-built Docker image to ensure ease of use and consistent performance across different environments.
 
+This package comes with a pre-built Docker image to ensure ease of use and consistent performance across different environments. Download here: https://zenodo.org/records/14848782
 Install Docker: For installation details, please visit the Docker official documentation and follow the instructions for your operating system.
-
 Load the Pre-packaged Image, We provide a pre-packaged Docker image file. You can load it using the following command:
 
     docker load -i NeuroPRIS_images.tar
@@ -55,7 +53,7 @@ Activate the Environment:
 Install Dependencies: Install Python packages listed in the requirements.txt:
 
     pip install -r requirements.txt
-
+ 
 # Usage
 
 Firstly, ensure all datasets and related PDB files are prepared in the directory. Replace placeholders with actual paths and file names.
@@ -63,18 +61,21 @@ Firstly, ensure all datasets and related PDB files are prepared in the directory
 ## Traning and Predicting
 ```python
 python main.py 
-    --negative_data_path=<negative_path> \
-    --output_dataset_path=<output_directory> \
-    --pdb_folder=<pdb_folder> \
-    --data_name=<dataset_name>
+    --positive_data_path=<Path to the positive data file> \
+    --negative_data_path=<Path to the negative data file> \
+    --output_dataset_path=<Path where datasets will be saved> \
+    --pdb_folder=<Path to the PDB folder> \
+    --data_name=<Name of the dataset to be created and used>\
+    --save_prefix=<Prefix for model save directories> \
+    --output_path=<Path for storing prediction outputs>
 
 example:
 python ./main.py \
+    --positive_data_path ./brain_ELAVL3_positive.txt \
     --negative_data_path ./brain_ELAVL3_negative.txt \
     --output_dataset_path ./dataset \
     --pdb_folder ./3DRNA \
     --data_name brain_ELAVL3_dataset \
-    --log_prefix ./log \
     --save_prefix ./model \
     --output_path ./output
 ```
@@ -84,12 +85,14 @@ We also provide step-by-step code execution to facilitate users in replacing the
 Place the standard format .pdb files into the ./3DRNA directory, and ensure that the input txt file contains sequence and dot-bracket secondary structure data.
 ```python
 python ./DatasetGenerate.py \
-    --negative_data_path=<negative_path> \
-    --output_dataset_path=<output_directory> \
-    --pdb_folder=<pdb_folder> 
+    --positive_data_path=<Path to the positive data file> \
+    --negative_data_path=<Path to the negative data file> \
+    --output_dataset_path=<Path where datasets will be saved> \
+    --pdb_folder=<Path to the PDB folder> 
 
 example:
 python ./DatasetGenerate.py \
+    --positive_data_path ./brain_ELAVL3_positive.txt \
     --negative_data_path ./brain_ELAVL3_negative.txt \
     --output_dataset_path ./dataset \
     --pdb_folder ./3DRNA 
@@ -97,23 +100,23 @@ python ./DatasetGenerate.py \
 ## Training
 ```python
 python ./train.py \
-    --output_dataset_path=<dataset_for_training> \
-    --data_name=<dataset_name> \
-    --save_prefix=<model_save_path> \
+    --output_dataset_path=<Path where datasets were saved> \
+    --data_name=<Name of the dataset to be created and used> \
+    --save_prefix=<Prefix for model save directories> 
 
 example:
 python ./train.py \
     --output_dataset_path ./dataset \
     --data_name brain_ELAVL3_dataset \
-    --save_prefix ./model \
+    --save_prefix ./model 
 ```
 ## Predicting
 ```python
 python ./predict.py \
-    --test_data_path=<test_dataset_path> \
-    --data_name=<data_name> \
-    --save_prefix=<model_save_path> \
-    --output_path=<output_directory>
+    --test_data_path=<Path to the test dataset> \
+    --data_name=<Name of the dataset to be created and used> \
+    --save_prefix=<Prefix for model save directories> \
+    --output_path=<Path for storing prediction results>
 
 example:
 python ./predict.py \
@@ -125,12 +128,13 @@ python ./predict.py \
 ## Motif Generating
 ```python
 python motif.py \
-    --model_path=<model_path> \
-    --dataset_path=<dataset_path> \
-    --data_name=<data_name> \
-    --output_path=<output_directory> \
-    --seq_info_folder=<seq_info_folder> \
-    --window_length=<window_length>
+    --model_path=<Path to the model checkpoint directory> \
+    --dataset_path=<Path to the generated dataset, should have dataset named "predict_dataset"> \
+    --data_name=<Name of the dataset to be created and used> \
+    --output_path=<Path to save the output files> \
+    --seq_info_folder=<Folder containing sequence info> \
+    --window_length=<Window length>
+
 example:
 python ./motif.py \
 	--model_path ./model/brain_ELAVL3_dataset \
@@ -143,10 +147,11 @@ python ./motif.py \
 ## Prediction Value
 ```python
 python PredictedValue.py \
-    --modelpath=<path_to_model_directory> \
-    --predictdatapath=<path_to_predict_data_directory> \
-    --outputpath=<path_to_output_directory> \
-    --dataname=<dataset_name>
+    --modelpath=<Path to the model checkpoint directory> \
+    --predictdatapath=<Path to the prediction data directory> \
+    --outputpath=<Path to save the output files> \
+    --dataname=<Name of the dataset to be created and used>
+
 example:
 python ./PredictedValue.py \
 	--modelpath ./model/brain_ELAVL3_dataset \
@@ -154,7 +159,6 @@ python ./PredictedValue.py \
 	--outputpath ./output \
 	--dataname brain_ELAVL3_dataset
 ```
----
 # License
 This project is covered under the **MIT License**.
 
