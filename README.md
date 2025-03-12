@@ -2,6 +2,7 @@
 
 `NeuroPRIS` is a Python package designed for RNA sequence prediction, leveraging deep learning architectures for predictive modeling in bioinformatics.
 
+![image](image.png)
 # Overview
 RNA plays an integral part in the molecular biology of cellular organisms, and understanding how RNA sequences can be accurately predicted enhances our comprehension of their role. NeuroPRIS proposes an end-to-end deep learning solution for the prediction of RNA sequence properties. Using a combination of architectural innovations including BiLSTM and 3D coordinate integration, it offers a powerful tool for understanding RNA-centric processes. The model aims to classify RNA sequences while leveraging structural information, thus providing deeper insights into RNA functions.
 
