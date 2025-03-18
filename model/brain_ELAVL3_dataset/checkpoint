@@ -1,0 +1,2 @@
+model_checkpoint_path: "brain_ELAVL3_dataset"
+all_model_checkpoint_paths: "brain_ELAVL3_dataset"
