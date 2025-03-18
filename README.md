@@ -34,7 +34,7 @@ Load the Pre-packaged Image, We provide a pre-packaged Docker image file. You ca
  
 Run the Docker container while enabling GPU support. This command will start the container in detached mode, allowing it to run in the background:
 
-    docker run -d --gpus all --name neuropris -p 47708:8888 -v ./NeuroPRIS-master:./NeuroPRIS-master -e NVIDIA_DRIVER_CAPABILITIES=compute,utility -e NVIDIA_VISIBLE_DEVICES=all xdshan/neuropris:v1.0
+    docker run -d --gpus all --name neuropris -p 47708:8888 -v ./NeuroPRIS(your local directory):./NeuroPRIS(container directory) -e NVIDIA_DRIVER_CAPABILITIES=compute,utility -e NVIDIA_VISIBLE_DEVICES=all xdshan/neuropris:v1.0
 
 Interact with the running container:
 
@@ -72,8 +72,8 @@ python main.py
 
 example:
 python ./main.py \
-    --positive_data_path ./brain_ELAVL3_positive.txt \
-    --negative_data_path ./brain_ELAVL3_negative.txt \
+    --positive_data_path ./dataset/brain_ELAVL3_positive.txt \
+    --negative_data_path ./dataset/brain_ELAVL3_negative.txt \
     --output_dataset_path ./dataset \
     --pdb_folder ./3DRNA \
     --data_name brain_ELAVL3_dataset \
@@ -93,8 +93,8 @@ python ./DatasetGenerate.py \
 
 example:
 python ./DatasetGenerate.py \
-    --positive_data_path ./brain_ELAVL3_positive.txt \
-    --negative_data_path ./brain_ELAVL3_negative.txt \
+    --positive_data_path ./dataset/brain_ELAVL3_positive.txt \
+    --negative_data_path ./dataset/brain_ELAVL3_negative.txt \
     --output_dataset_path ./dataset \
     --pdb_folder ./3DRNA 
 ```
